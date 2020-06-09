@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  font-family: -apple-system, 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.active {
+  background-color: rgba(63, 81, 181, 0.18) !important;
+}
+@media screen and (max-width: 600px) {
+  .MuiButton-outlined {
+    font-size: 11px !important;
+  }
+}
