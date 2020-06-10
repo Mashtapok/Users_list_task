@@ -1,14 +1,36 @@
 body {
-  margin: 0;
-  font-family: -apple-system, 'Roboto', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: -apple-system, 'Roboto', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-y: scroll;
 }
+
 .active {
-  background-color: rgba(63, 81, 181, 0.18) !important;
+    background-color: rgba(63, 81, 181, 0.18) !important;
 }
+
 @media screen and (max-width: 600px) {
-  .MuiButton-outlined {
-    font-size: 11px !important;
-  }
+    .MuiButton-outlined {
+        font-size: 11px !important;
+    }
 }
+
+@media screen and (max-width: 600px) {
+    .MuiButtonGroup-grouped {
+        min-height: 37px;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .MuiButtonGroup-grouped {
+        min-height: 27px;
+        font-size: 8px !important;
+    }
+}
+@media (max-width: 300px) {
+    .makeStyles-title-1 {
+        font-size: 15px !important;
+    }
+}
+

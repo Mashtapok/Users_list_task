@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -7,10 +7,11 @@ import Container from '@material-ui/core/Container';
 import {makeStyles} from '@material-ui/core/styles';
 import {ErrorMessage, Field, Form, Formik, useField} from "formik";
 import {string, object} from "yup";
-import {AuthAPI} from "../../api";
 import {useDispatch} from "react-redux";
-import { useHistory } from "react-router-dom";
-import {setToken} from "../../redux/actions";
+import {useHistory} from "react-router-dom";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from '@material-ui/lab/Alert';
+import {loginThunk} from "../../redux/thunks";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -20,11 +21,12 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
     form: {
-        width: '100%', // Fix IE 11 issue.
+        width: '100%',
         marginTop: theme.spacing(1),
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
+        padding: "5px 0"
     },
     errorMsg: {
         color: "red"
@@ -32,14 +34,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginSchema = object().shape({
-    username: string().max(30, 'Это слишком длинно').required('Укажите имя пользователя'),
-    password: string().max(30, 'Это слишком длинно').required('Введите пароль'),
+    username: string().max(40, 'Слишком длинное имя').required('Укажите имя пользователя'),
+    password: string().max(40, 'Слишком длинный пароль').required('Введите пароль'),
 });
 
 export const Login = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
+    const [open, setOpen] = useState(false);
 
     const MyField = ({label, type, ...props}) => {
         const [field, meta] = useField(props);
@@ -61,8 +64,40 @@ export const Login = () => {
         );
     };
 
+    const alert = () => {
+        setOpen(true);
+    };
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
+    const handleSubmit = async (data) => {
+        try {
+            await dispatch(loginThunk(data));
+            history.push('/users');
+        } catch (error) {
+            alert();
+            console.error(error)
+        }
+    };
+
+
     return (
         <Container component="main" maxWidth="xs">
+            <Snackbar open={open}
+                      autoHideDuration={5000}
+                      anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                      onClose={handleClose}
+            >
+                <Alert onClose={handleClose}
+                       severity="error"
+                >
+                    Неверное имя пользователя или пароль
+                </Alert>
+            </Snackbar>
             <CssBaseline/>
             <div className={classes.paper}>
                 <Typography component="h1" variant="h5">
@@ -70,15 +105,7 @@ export const Login = () => {
                 </Typography>
                 <Formik
                     initialValues={{username: "test_super", password: "Nf<U4f<rDbtDxAPn"}}
-                    onSubmit={async (data) => {
-                        try {
-                            const token = await AuthAPI.login(data.username, data.password);
-                            dispatch(setToken(token.token));
-                            history.push('/users')
-                        } catch (e) {
-                         throw e
-                        }
-                    }}
+                    onSubmit={handleSubmit}
                     useHistory
                     validationSchema={LoginSchema}
                 >

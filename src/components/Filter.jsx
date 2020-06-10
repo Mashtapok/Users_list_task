@@ -6,6 +6,11 @@ import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        [theme.breakpoints.down('xs')]: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+        },
         '& > *': {
             margin: theme.spacing(2),
             minWidth: '25ch',
@@ -16,21 +21,27 @@ const useStyles = makeStyles((theme) => ({
             },
         },
     },
+    searchBlock: {
+        [theme.breakpoints.down('xs')] : {
+            width: "100%"
+        }
+    }
 }));
 
-export const Filter = ({increaseSortHandler, decreaseSortHandler,defaultSortHandler, active}) => {
+export const Filter = ({increaseSortHandler, decreaseSortHandler, defaultSortHandler, keywordChange, active}) => {
     const classes = useStyles();
 
-    const classNameInc = (active==="increase") ? 'active': "";
-    const classNameDef = (active==="default") ? 'active': "";
-    const classNameDec = (active==="decrease") ? 'active': "";
+    const classNameInc = (active === "increase") ? 'active' : "";
+    const classNameDef = (active === "default") ? 'active' : "";
+    const classNameDec = (active === "decrease") ? 'active' : "";
 
     return (
         <div className={classes.root}>
-            <TextField placeholder="Username"
+            <TextField className={classes.searchBlock}
+                       placeholder="Username"
                        id="standard-search" label="Search"
                        type="search"
-
+                       onChange={event => keywordChange(event)}
             />
             <ButtonGroup size="small" color="primary" aria-label="small outlined primary button group">
                 <Button className={classNameInc} onClick={() => increaseSortHandler()}>По возрастанию</Button>

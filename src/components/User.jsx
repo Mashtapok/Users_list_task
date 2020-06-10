@@ -1,16 +1,14 @@
 import React from "react";
-import {makeStyles} from "@material-ui/styles";
+import {makeStyles} from '@material-ui/core/styles';
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Box from "@material-ui/core/Box";
 import Badge from "@material-ui/core/Badge";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles( (theme) => ({
     root: {
-        minWidth: 275,
+        minWidth: 200,
         marginBottom: "25px",
     },
     content: {
@@ -18,9 +16,15 @@ const useStyles = makeStyles({
         justifyContent: 'space-between',
         alignItems: "center"
     },
-});
+    title: {
+        [theme.breakpoints.down('xs')] : {
+            fontSize: "1rem",
+            paddingRight: "10px"
+        }
+    }
+}));
 
-export const User = ({username, id, isActive, firstName, lastName}) => {
+export const User = ({username, id, isActive}) => {
     const classes = useStyles();
 
     return (
