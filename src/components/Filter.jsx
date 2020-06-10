@@ -44,9 +44,9 @@ export const Filter = ({increaseSortHandler, decreaseSortHandler, defaultSortHan
                        onChange={event => keywordChange(event)}
             />
             <ButtonGroup size="small" color="primary" aria-label="small outlined primary button group">
-                <Button className={classNameInc} onClick={() => increaseSortHandler()}>По возрастанию</Button>
-                <Button className={classNameDef} onClick={() => defaultSortHandler()}>Стандартный</Button>
-                <Button className={classNameDec} onClick={() => decreaseSortHandler()}>По убыванию</Button>
+                <Button className={classNameInc} onClick={increaseSortHandler}>По возрастанию</Button>
+                <Button className={classNameDef} onClick={defaultSortHandler}>Стандартный</Button>
+                <Button className={classNameDec} onClick={decreaseSortHandler}>По убыванию</Button>
             </ButtonGroup>
         </div>
     );
