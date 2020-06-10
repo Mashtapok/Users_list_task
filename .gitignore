@@ -6,7 +6,7 @@
 .pnp.js
 .firebase
 .idea
-.firebase.json
+firebase.json
 .firebaserc
 
 # testing
